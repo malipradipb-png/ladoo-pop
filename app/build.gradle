@@ -1,0 +1,32 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.mithaimela.game'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.ladoopop.game"   // Play Store par app ki pehchaan, baad mein badal nahi sakte
+        minSdk 23
+        targetSdk 34
+        versionCode 1                          // har naye update par 1 badhayein
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'com.google.android.gms:play-services-ads:23.3.0'
+    implementation 'androidx.annotation:annotation:1.8.2'
+}
