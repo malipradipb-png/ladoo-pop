@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -156,22 +156,22 @@ canvas{display:block; width:100%; height:100%; border-radius:20px; touch-action:
   <section class="screen" id="home">
     <div class="sweets" id="homeSweets"></div>
     <h1 class="logo">Ladoo<br>Pop</h1>
-    <div class="tag">Meethi match paheli</div>
+    <div class="tag">Sweet match puzzle</div>
     <div class="menu">
-      <button class="btn" id="bPlay" type="button">Khelo</button>
+      <button class="btn" id="bPlay" type="button">Play</button>
       <button class="btn alt" id="bMap" type="button">Level map</button>
     </div>
     <div class="progress-note" id="homeNote"></div>
     <div class="toggles">
-      <button class="tog" id="tSound" type="button" aria-pressed="true"><i></i>Awaaz</button>
-      <button class="tog" id="tMusic" type="button" aria-pressed="true"><i></i>Sangeet</button>
+      <button class="tog" id="tSound" type="button" aria-pressed="true"><i></i>Sound</button>
+      <button class="tog" id="tMusic" type="button" aria-pressed="true"><i></i>Music</button>
     </div>
   </section>
 
   <!-- MAP -->
   <section class="screen" id="map" hidden>
     <div class="topbar">
-      <button class="round" id="mapBack" type="button" aria-label="Wapas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="round" id="mapBack" type="button" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
       <h2>Levels</h2>
       <div class="starcount"><svg><use href="#star"/></svg><span id="totStars">0</span></div>
     </div>
@@ -181,16 +181,16 @@ canvas{display:block; width:100%; height:100%; border-radius:20px; touch-action:
   <!-- GAME -->
   <section class="screen" id="game" hidden>
     <div class="hud">
-      <button class="round" id="bPause" type="button" aria-label="Rokein"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1.5"/><rect x="14" y="5" width="4" height="14" rx="1.5"/></svg></button>
+      <button class="round" id="bPause" type="button" aria-label="Pause"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1.5"/><rect x="14" y="5" width="4" height="14" rx="1.5"/></svg></button>
       <div class="goalcard">
         <div class="goalhead"><span id="lvlTitle">Level 1</span><span>Score <b id="score">0</b></span></div>
         <div class="chips" id="chips"></div>
         <div class="sbar"><i id="bar"></i><div id="ticks"></div></div>
       </div>
-      <div class="movebadge" id="moveBadge"><b id="moves">0</b><span>Chaal</span></div>
+      <div class="movebadge" id="moveBadge"><b id="moves">0</b><span>Moves</span></div>
     </div>
-    <div class="board-wrap" id="wrap"><canvas id="cv" aria-label="Mithai ka board"></canvas></div>
-    <div class="levelname" id="tip">Swipe karo ya do mithai par tap karo</div>
+    <div class="board-wrap" id="wrap"><canvas id="cv" aria-label="Sweets board"></canvas></div>
+    <div class="levelname" id="tip">Swipe, or tap two sweets to swap</div>
   </section>
 
   <div class="mback" id="mback" hidden><div id="modal"></div></div>
@@ -220,7 +220,7 @@ const Ads={
 const $=id=>document.getElementById(id);
 const cv=$('cv'), ctx=cv.getContext('2d'), wrap=$('wrap');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const NAMES=['Ladoo','Jalebi','Pista Barfi','Gulab Jamun','Rasgulla','Nariyal Barfi'];
+const NAMES=['Ladoo','Jalebi','Pistachio Barfi','Gulab Jamun','Rasgulla','Coconut Barfi'];
 const COLORS=['#ff9a2e','#ffc23d','#9bd15f','#a0441e','#f4eedd','#ff7aa5'];
 const fmt=n=>n.toLocaleString('en-IN');
 const STAR=(on,cls='')=>`<svg class="${on?'on':''} ${cls}" viewBox="0 0 24 24"><use href="#star"/></svg>`;
@@ -364,7 +364,7 @@ function findMove(){
   return null;
 }
 async function shuffle(){
-  bigText('Phir se sajaya!');
+  bigText('Shuffled!');
   let tries=0;
   do{for(let r=0;r<N;r++)for(let c=0;c<N;c++){const tl=grid[r][c];if(tl.sp===0)tl.t=Math.random()*types|0;}tries++;}
   while((findMatches().length||!findMove())&&tries<200);
@@ -410,7 +410,7 @@ async function gravity(){
   }
   await Promise.all(ps);
 }
-const praise=['','','Badhiya!','Shandaar!','Kamaal!','Zabardast!','Mela Loot Liya!'];
+const praise=['','','Sweet!','Delicious!','Amazing!','Fantastic!','Sugar Rush!'];
 async function resolve(swapCells){
   let combo=0;
   while(true){
@@ -439,7 +439,7 @@ async function trySwap(a,b){
     if(A.sp===3&&B.sp===3){for(let i=0;i<N*N;i++)set.add(i);}
     else{const bombPos=A.sp===3?b:a,other=A.sp===3?B:A;grid[bombPos.r][bombPos.c].sp=0;set.add(bombPos.r*N+bombPos.c);
       for(let i=0;i<N*N;i++)if(at(i).t===other.t)set.add(i);}
-    bigText('Mithai Dabba!');beep(140,.3,'square',.06);vib(40);
+    bigText('Sweet Box!');beep(140,.3,'square',.06);vib(40);
     await clearCells(set,[],1);await resolve(null);
   }else if(!findMatches().length){
     beep(140,.08,'square',.05);wrap.classList.remove('shake');void wrap.offsetWidth;wrap.classList.add('shake');
@@ -455,7 +455,7 @@ async function endTurn(){
   busy=false;
 }
 async function bonanza(){
-  bigText('Mithai Bonanza!');jingle([523,659,784,1047],.09);await wait(700);
+  bigText('Sweet Bonanza!');jingle([523,659,784,1047],.09);await wait(700);
   while(moves>0){
     const c=[];for(let r=0;r<N;r++)for(let k=0;k<N;k++){const tl=grid[r][k];if(tl.sp===0&&tl.t!==99)c.push(tl);}
     if(!c.length)break;const tl=c[Math.random()*c.length|0];
@@ -471,7 +471,7 @@ function setPop(id,v){const el=$(id);if(!el)return;const s=String(v);if(el.textC
 function buildHud(){
   $('lvlTitle').textContent='Level '+L.n;
   $('chips').innerHTML=L.goals.map(g=>g.t==='score'
-    ?`<div class="chip"><span class="lbl">Lakshya</span><b>${fmt(g.need)}</b></div>`
+    ?`<div class="chip"><span class="lbl">Target</span><b>${fmt(g.need)}</b></div>`
     :`<div class="chip" data-t="${g.t}"><img src="${icons[g.t]}" alt="${NAMES[g.t]}"><b id="g-${g.t}">${g.need}</b></div>`).join('');
   const max=L.stars[2];
   $('ticks').innerHTML=L.stars.map((s,i)=>`<span class="tick" id="tk${i}" style="left:${s/max*100}%">${STAR(false)}</span>`).join('');
@@ -505,8 +505,8 @@ const closeModal=()=>{$('mback').hidden=true;};
 const totalStars=()=>Object.values(save.s).reduce((a,b)=>a+b,0);
 function renderHome(){
   $('homeSweets').innerHTML=[0,1,2,3,4,5].map((t,i)=>`<img src="${icons[t]}" alt="" style="animation-delay:${-i*.4}s">`).join('');
-  $('homeNote').innerHTML=save.u>1?`Level <b>${save.u}</b> par ho · <b>${totalStars()}</b> sitare`:'100 meethe levels aapka intezaar kar rahe hain';
-  $('bPlay').textContent=save.u>1?`Khelo · Level ${save.u}`:'Khelo';
+  $('homeNote').innerHTML=save.u>1?`You are on level <b>${save.u}</b> · <b>${totalStars()}</b> stars`:'100 sweet levels are waiting for you';
+  $('bPlay').textContent=save.u>1?`Play · Level ${save.u}`:'Play';
   for(const[k,id]of[['sound','tSound'],['music','tMusic']])$(id).setAttribute('aria-pressed',settings[k]);
 }
 function renderMap(){
@@ -514,7 +514,7 @@ function renderMap(){
   const el=$('levels');el.innerHTML='';
   for(let n=1;n<=MAXL;n++){const locked=n>save.u,st=save.s[n]||0;
     const b=document.createElement('button');b.type='button';b.className='node'+(locked?' locked':'')+(n===save.u?' cur':'');
-    b.setAttribute('aria-label',locked?`Level ${n}, band`:`Level ${n}, ${st} sitare`);
+    b.setAttribute('aria-label',locked?`Level ${n}, locked`:`Level ${n}, ${st} stars`);
     b.innerHTML=(locked?LOCK:n)+(locked?'':`<span class="ns">${[0,1,2].map(i=>STAR(i<st)).join('')}</span>`);
     b.onclick=()=>{if(locked){beep(140,.08,'square',.05);return;}tap();openLevel(n);};el.appendChild(b);}
   setTimeout(()=>el.querySelector('.cur')?.scrollIntoView({block:'center'}),50);
@@ -522,21 +522,21 @@ function renderMap(){
 function goalHtml(list){return`<div class="goalbox">${list.map(g=>g.t==='score'
   ?`<div class="chip"><span class="lbl">Score</span><b>${fmt(g.need)}</b></div>`
   :`<div class="chip"><img src="${icons[g.t]}" alt="${NAMES[g.t]}"><b>${g.left??g.need}</b></div>`).join('')}</div>`;}
-function goalSentence(){return L.goals.map(g=>g.t==='score'?`${fmt(g.need)} score banao`:`${g.need} ${NAMES[g.t]} ikattha karo`).join(' aur ');}
+function goalSentence(){return L.goals.map(g=>g.t==='score'?`Score ${fmt(g.need)} points`:`collect ${g.need} ${NAMES[g.t]}`).join(' and ');}
 function openLevel(n){
   L=levelCfg(n);types=L.types;score=0;moves=L.moves;extraUsed=false;hint=null;selected=null;
   for(const g of L.goals){g.left=g.need;g.shown=g.need;}
   show('game');fillBoard();buildHud();updateHud();
-  modal(`<div class="ribbon">Level ${n}</div>${goalHtml(L.goals)}<p>${goalSentence()}, sirf <b>${L.moves} chaal</b> mein.</p>
-    <div class="col"><button class="btn" id="mGo" type="button">Shuru karo</button><button class="linkbtn" id="mBack" type="button">Level map</button></div>`,
+  modal(`<div class="ribbon">Level ${n}</div>${goalHtml(L.goals)}<p>${goalSentence()} in just <b>${L.moves} moves</b>.</p>
+    <div class="col"><button class="btn" id="mGo" type="button">Start</button><button class="linkbtn" id="mBack" type="button">Level map</button></div>`,
     {mGo:()=>{closeModal();dropIn();setTimeout(()=>{busy=false;lastAct=performance.now();},reduce?150:850);},mBack:()=>show('map')});
 }
 function pauseMenu(){
   if(busy)return;tap();
   const tog=(k,lbl)=>`<button class="tog" id="p_${k}" type="button" aria-pressed="${settings[k]}"><i></i>${lbl}</button>`;
-  modal(`<div class="ribbon">Ruko zara</div><p class="muted">Level ${L.n} · ${moves} chaal baaki</p>
-    <div class="toggles">${tog('sound','Awaaz')}${tog('music','Sangeet')}</div>
-    <div class="col"><button class="btn" id="pRes" type="button">Khelte raho</button>
+  modal(`<div class="ribbon">Paused</div><p class="muted">Level ${L.n} · ${moves} moves left</p>
+    <div class="toggles">${tog('sound','Sound')}${tog('music','Music')}</div>
+    <div class="col"><button class="btn" id="pRes" type="button">Resume</button>
     <div class="row"><button class="btn alt sm" id="pRe" type="button">Restart</button><button class="btn alt sm" id="pMap" type="button">Levels</button></div></div>`,
     {pRes:()=>{closeModal();busy=false;lastAct=performance.now();},pRe:()=>openLevel(L.n),pMap:()=>show('map'),
      p_sound:()=>{settings.sound=!settings.sound;$('p_sound').setAttribute('aria-pressed',settings.sound);persist();},
@@ -550,21 +550,21 @@ async function win(){
   await wait(300);jingle([523,659,784,1047,1319],.1);
   for(let i=0;i<st;i++)setTimeout(()=>{pop(1+i*.35);vib(25);},450+i*220);
   const last=L.n>=MAXL;
-  modal(`<div class="ribbon">Level ${L.n} paar!</div>
+  modal(`<div class="ribbon">Level ${L.n} complete!</div>
     <div class="bigstars">${[0,1,2].map(i=>`<svg class="${i<st?'on':''}" style="animation-delay:${.35+i*.22}s" viewBox="0 0 24 24"><use href="#star"/></svg>`).join('')}</div>
     <div class="final">Score<b>${fmt(score)}</b></div>
-    <p class="muted">${st===3?'Teen sitare! Kamaal ka khel.':best&&prev?'Naya record!':st===2?'Bahut badhiya. Teesra sitara bas thoda door.':'Paas ho gaye! Zyada score se aur sitare milenge.'}</p>
-    <div class="col"><button class="btn" id="wNext" type="button">${last?'Saare levels paar!':'Agla level'}</button>
-    <div class="row"><button class="btn alt sm" id="wRe" type="button">Dobara</button><button class="btn alt sm" id="wMap" type="button">Levels</button></div></div>`,
+    <p class="muted">${st===3?'Three stars! Brilliant play.':best&&prev?'New best!':st===2?'Great job! The third star is just a little further.':'You passed! Score higher to earn more stars.'}</p>
+    <div class="col"><button class="btn" id="wNext" type="button">${last?'All levels done!':'Next level'}</button>
+    <div class="row"><button class="btn alt sm" id="wRe" type="button">Replay</button><button class="btn alt sm" id="wMap" type="button">Levels</button></div></div>`,
     {wNext:async()=>{await Ads.betweenLevels();last?show('map'):openLevel(L.n+1);},wRe:async()=>{await Ads.betweenLevels();openLevel(L.n);},wMap:()=>show('map')});
 }
 function lose(){
   beep(330,.2,'triangle',.08);setTimeout(()=>beep(247,.3,'triangle',.08),200);
   const left=L.goals.filter(g=>g.t==='score'?score<g.need:g.left>0).map(g=>g.t==='score'?{t:'score',need:g.need-score}:g);
-  modal(`<div class="ribbon red">Chaal khatam!</div><p class="muted">Bas itna aur chahiye tha:</p>${goalHtml(left)}
-    <div class="col">${extraUsed?'':`<button class="btn green" id="lMore" type="button">${Ads.available()?'Ad dekho, +5 chaal pao':'+5 chaal, ek mauka aur'}</button>`}
-    <div class="row"><button class="btn${extraUsed?'':' alt'} sm" id="lRe" type="button">Dobara khelo</button><button class="btn alt sm" id="lMap" type="button">Levels</button></div></div>`,
-    {lMore:async()=>{const ok=await Ads.rewarded();if(!ok){$('lMore').textContent='Ad abhi nahi mila, thodi der baad';return;}
+  modal(`<div class="ribbon red">Out of moves!</div><p class="muted">You were this close:</p>${goalHtml(left)}
+    <div class="col">${extraUsed?'':`<button class="btn green" id="lMore" type="button">${Ads.available()?'Watch ad for +5 moves':'+5 moves, one more try'}</button>`}
+    <div class="row"><button class="btn${extraUsed?'':' alt'} sm" id="lRe" type="button">Try again</button><button class="btn alt sm" id="lMap" type="button">Levels</button></div></div>`,
+    {lMore:async()=>{const ok=await Ads.rewarded();if(!ok){$('lMore').textContent='No ad available, try again soon';return;}
        extraUsed=true;moves+=5;updateHud();closeModal();busy=false;lastAct=performance.now();},
      lRe:async()=>{await Ads.betweenLevels();openLevel(L.n);},lMap:()=>show('map')});
 }
